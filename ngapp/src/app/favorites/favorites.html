@@ -1,0 +1,57 @@
+
+<div class="favorites-page">
+
+  <div class="favorites-hero">
+    <div class="container">
+      <p class="hero-label">YOUR PERSONAL COLLECTION</p>
+      <h1>Your <span>Favourites</span></h1>
+      <p class="hero-description">
+        All the products you love, collected in one place.
+      </p>
+    </div>
+  </div>
+
+  <div class="container py-5">
+
+    <div class="favorites-heading">
+      <div>
+        <h2>Saved Products</h2>
+        <p>Your favourite products</p>
+      </div>
+
+      <span class="product-count">
+        {{ favorites().length }} products
+      </span>
+    </div>
+
+    @if (favorites().length > 0) {
+
+      <div class="row g-4">
+
+        @for (product of favorites(); track product.id) {
+          <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+            <app-product-card [product]="product" />
+          </div>
+        }
+
+      </div>
+
+    } @else {
+
+      <div class="empty-favorites">
+        <div class="empty-icon">♡</div>
+        <h3>No favourites yet</h3>
+        <p>
+          You haven't saved any products.
+          Explore our catalogue and add products you love!
+        </p>
+
+        <a routerLink="/products" class="back-button">
+          Explore products →
+        </a>
+      </div>
+
+    }
+
+  </div>
+</div>

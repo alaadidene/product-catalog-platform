@@ -1,0 +1,19 @@
+# Dependencies
+**/node_modules/
+
+# Build outputs
+**/dist/
+**/.next/
+**/.angular/
+
+# Git
+**/.git/
+
+# Environment files
+**/.env
+**/.env.*
+
+# Logs and IDE files
+**/*.log
+**/.vscode/
+**/.idea/

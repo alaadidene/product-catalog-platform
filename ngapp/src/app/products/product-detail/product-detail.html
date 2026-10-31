@@ -1,0 +1,191 @@
+<div class="container py-5">
+
+  <a routerLink="/products" class="btn btn-outline-primary mb-4">
+    ← Back to catalogue
+  </a>
+
+  @if (loading()) {
+
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+      <p class="mt-2">Loading product details...</p>
+    </div>
+
+  }
+
+  @else if (error()) {
+
+    <div class="alert alert-danger">
+      {{ error() }}
+    </div>
+
+  }
+
+  @else if (product(); as p) {
+
+    <div class="row g-5">
+
+      <!-- Product image -->
+      <div class="col-md-5">
+
+        <div class="card p-3 shadow-sm">
+
+          <img
+            [src]="p.thumbnail"
+            [alt]="p.title"
+            class="img-fluid detail-image"
+          >
+
+        </div>
+
+        <!-- Other product images -->
+        <div class="row g-2 mt-2">
+
+          @for (image of p.images; track image) {
+            <div class="col-4">
+              <img
+                [src]="image"
+                [alt]="p.title"
+                class="img-thumbnail gallery-image"
+              >
+            </div>
+          }
+
+        </div>
+
+      </div>
+
+      <!-- Product information -->
+      <div class="col-md-7">
+
+        <span class="badge bg-secondary mb-2">
+          {{ p.category }}
+        </span>
+
+        <h1>{{ p.title }}</h1>
+
+        <p class="text-muted">
+          {{ p.description }}
+        </p>
+
+        <h2 class="text-primary">
+          ${{ p.price }}
+        </h2>
+        
+        <button
+          type="button"
+          class="detail-favorite-button"
+          [class.active]="isFavorite()"
+          (click)="toggleFavorite()"
+          [attr.aria-pressed]="isFavorite()"
+        >
+          {{ isFavorite() ? '♥ Remove from favourites' : '♡ Add to favourites' }}
+        </button>
+
+
+        <p class="text-success">
+          {{ p.discountPercentage }}% discount
+        </p>
+
+        <p>⭐ Rating: {{ p.rating }} / 5</p>
+
+        <p>Brand: {{ p.brand || 'Not specified' }}</p>
+
+        <p>Stock: {{ p.stock }}</p>
+
+        <p>
+          Availability:
+          <span class="badge bg-success">
+            {{ p.availabilityStatus }}
+          </span>
+        </p>
+
+        <p>SKU: {{ p.sku }}</p>
+
+        <p>Minimum order quantity: {{ p.minimumOrderQuantity }}</p>
+
+        <hr>
+
+        <h4>Specifications</h4>
+
+        <ul>
+          <li>Weight: {{ p.weight }}</li>
+          <li>Width: {{ p.dimensions.width }}</li>
+          <li>Height: {{ p.dimensions.height }}</li>
+          <li>Depth: {{ p.dimensions.depth }}</li>
+        </ul>
+
+        <hr>
+
+        <h4>Additional information</h4>
+
+        <p>Warranty: {{ p.warrantyInformation }}</p>
+
+        <p>Shipping: {{ p.shippingInformation }}</p>
+
+        <p>Return policy: {{ p.returnPolicy }}</p>
+
+        <p>Tags: {{ p.tags.join(', ') }}</p>
+
+      </div>
+
+    </div>
+
+    <hr class="my-5">
+
+    <!-- Reviews -->
+    <h3 class="mb-4">Customer Reviews</h3>
+
+    @if (p.reviews.length > 0) {
+
+      <div class="row g-3">
+
+        @for (review of p.reviews; track $index) {
+
+          <div class="col-md-6">
+
+            <div class="card p-3 h-100">
+
+              <h5>{{ review.reviewerName }}</h5>
+
+              <p>⭐ {{ review.rating }} / 5</p>
+
+              <p>{{ review.comment }}</p>
+
+              <small class="text-muted">
+                {{ review.date }}
+              </small>
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    } @else {
+
+      <p>No reviews available.</p>
+
+    }
+
+    <hr class="my-5">
+
+    <h4>Product metadata</h4>
+
+    <p>Barcode: {{ p.meta.barcode }}</p>
+
+    <p>Created: {{ p.meta.createdAt }}</p>
+
+    <p>Updated: {{ p.meta.updatedAt }}</p>
+
+    <p>Minimum order quantity: {{ p.minimumOrderQuantity }}</p>
+
+    <p>QR code:</p>
+
+    <img [src]="p.meta.qrCode" alt="Product QR code" width="120">
+
+  }
+
+</div>

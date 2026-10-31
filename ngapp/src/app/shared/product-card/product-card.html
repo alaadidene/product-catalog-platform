@@ -1,0 +1,59 @@
+
+<div class="product-card h-100">
+
+  <div class="product-image-container">
+
+    <img
+      [src]="product().thumbnail"
+      [alt]="product().title"
+      class="product-image"
+      loading="lazy"
+    />
+
+    <!-- Favourite button -->
+    <button
+      type="button"
+      class="favorite-button"
+      [class.active]="isFavorite()"
+      (click)="toggleFavorite()"
+      [attr.aria-label]="isFavorite() ? 'Remove from favourites' : 'Add to favourites'"
+      [attr.aria-pressed]="isFavorite()"
+    >
+      {{ isFavorite() ? '♥' : '♡' }}
+    </button>
+
+  </div>
+
+  <div class="product-content">
+
+    <p class="product-category">
+      {{ product().category }}
+    </p>
+
+    <h5 class="product-title">
+      {{ product().title }}
+    </h5>
+
+    <p class="product-description">
+      {{ product().description }}
+    </p>
+
+    <div class="product-footer">
+
+      <div class="product-price">
+        ${{ product().price }}
+      </div>
+
+      <a
+        [routerLink]="['/products', product().id]"
+        class="details-button"
+        aria-label="View details for this product"
+      >
+        View details
+        <span>→</span>
+      </a>
+
+    </div>
+
+  </div>
+</div>

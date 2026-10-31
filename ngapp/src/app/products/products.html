@@ -1,0 +1,206 @@
+
+<div class="catalogue-page">
+
+  <!-- Hero section -->
+  <div class="catalogue-hero">
+    <div class="container">
+      <p class="hero-label">DISCOVER OUR COLLECTION</p>
+      <h1>Find your next <span>favourite</span>.</h1>
+      <p class="hero-description">
+        Explore our collection of products and discover something you'll love.
+      </p>
+    </div>
+  </div>
+
+  <div class="container py-5">
+
+    <!-- Catalogue heading -->
+    <div class="catalogue-heading">
+      <div>
+        <h2>Our Products</h2>
+        <p>Explore our latest collection</p>
+      </div>
+
+      @if (!loading() && !error()) {
+        <span class="product-count">
+          {{ total() }} products
+        </span>
+      }
+    </div>
+
+    <!-- Search and category filters -->
+    <div class="search-container">
+
+      <!-- Search bar -->
+      <form (submit)="$event.preventDefault(); searchProducts()">
+        <div class="search-box">
+          <span class="search-icon">⌕</span>
+
+          <input
+            type="search"
+            placeholder="Search for a product..."
+            [value]="searchQuery()"
+            (input)="updateSearchQuery($event)"
+            aria-label="Search products"
+          />
+
+          @if (activeSearch()) {
+            <button
+              type="button"
+              class="clear-search"
+              (click)="clearSearch()"
+            >
+              Clear
+            </button>
+          }
+
+          <button type="submit" class="search-button">
+            Search
+          </button>
+        </div>
+      </form>
+
+      <!-- Category filter -->
+      @if (!activeSearch()) {
+        <div class="category-filter">
+
+          <label for="category">Filter by category:</label>
+
+          <select
+            id="category"
+            [value]="selectedCategory()"
+            (change)="onCategoryChange($event)"
+            aria-label="Filter products by category"
+          >
+            <option value="">All categories</option>
+
+            @for (category of categories(); track category) {
+              <option [value]="category">
+                {{ category.replaceAll('-', ' ') }}
+              </option>
+            }
+          </select>
+
+        </div>
+      }
+
+    </div>
+
+    <!-- Loading state -->
+    @if (loading()) {
+
+      <div class="loading-container">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Loading our products...</p>
+      </div>
+
+    }
+
+    <!-- Error state -->
+    @else if (error()) {
+
+      <div class="error-container">
+        <div class="error-icon">!</div>
+        <h3>Oops! Something went wrong.</h3>
+        <p>{{ error() }}</p>
+
+        <button class="btn btn-primary" (click)="loadProducts()">
+          Try again
+        </button>
+      </div>
+
+    }
+
+    <!-- Products and search results -->
+    @else {
+
+      @if (activeSearch()) {
+        <div class="search-results-heading">
+          <h3>Search results</h3>
+          <p>
+            Results for "{{ searchQuery() }}" —
+            {{ total() }} products found
+          </p>
+        </div>
+      }
+
+      @if (selectedCategory() && !activeSearch()) {
+        <div class="search-results-heading">
+          <h3>Category: {{ selectedCategory().replaceAll('-', ' ') }}</h3>
+          <p>{{ total() }} products found</p>
+        </div>
+      }
+
+      @if (products().length > 0) {
+
+        <!-- Products grid -->
+        <div class="row g-4">
+
+          @for (product of products(); track product.id) {
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+              <app-product-card [product]="product" />
+            </div>
+          }
+
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-container">
+
+          <p class="pagination-info">
+            Page {{ currentPage() }} of {{ totalPages() }}
+            <span>({{ total() }} products in total)</span>
+          </p>
+
+          <div class="pagination-buttons">
+
+            <button
+              class="btn btn-outline-primary"
+              [disabled]="currentPage() === 1 || loading()"
+              (click)="previousPage()"
+            >
+              ← Previous
+            </button>
+
+            <span class="current-page">
+              {{ currentPage() }}
+            </span>
+
+            <button
+              class="btn btn-primary"
+              [disabled]="currentPage() === totalPages() || loading()"
+              (click)="nextPage()"
+            >
+              Next →
+            </button>
+
+          </div>
+        </div>
+
+      } @else {
+
+        <!-- No results -->
+        <div class="no-results">
+          <div class="no-results-icon">⌕</div>
+          <h3>No products found</h3>
+          <p>
+            @if (activeSearch()) {
+              We couldn't find any products matching "{{ searchQuery() }}".
+            } @else {
+              There are no products in this category.
+            }
+          </p>
+
+          <button class="btn btn-primary" (click)="clearSearch()">
+            View all products
+          </button>
+        </div>
+
+      }
+
+    }
+
+  </div>
+</div>

@@ -1,0 +1,105 @@
+
+.favorites-page {
+  min-height: 70vh;
+}
+
+/* Hero section */
+.favorites-hero {
+  background: #eef4ff;
+  padding: 65px 0;
+  text-align: center;
+}
+
+.hero-label {
+  color: #0d6efd;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.favorites-hero h1 {
+  color: #17365d;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 700;
+  margin: 15px 0;
+}
+
+.favorites-hero h1 span {
+  color: #0d6efd;
+}
+
+.hero-description {
+  color: #6c757d;
+}
+
+/* Products heading */
+.favorites-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.favorites-heading h2 {
+  color: #17365d;
+  font-weight: 700;
+}
+
+.favorites-heading p {
+  color: #6c757d;
+}
+
+.product-count {
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+/* Empty favorites */
+.empty-favorites {
+  text-align: center;
+  padding: 65px 20px;
+}
+
+.empty-icon {
+  color: #0d6efd;
+  font-size: 65px;
+}
+
+.empty-favorites h3 {
+  color: #17365d;
+  font-weight: 700;
+  margin: 15px 0;
+}
+
+.empty-favorites p {
+  color: #6c757d;
+  margin-bottom: 25px;
+}
+
+/* Explore button */
+.back-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #0d6efd;
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  transition: background 0.2s ease;
+}
+
+.back-button:hover {
+  background: #0b5ed7;
+}
+
+/* Mobile layout */
+@media (max-width: 576px) {
+  .favorites-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .favorites-hero {
+    padding: 45px 15px;
+  }
+}
